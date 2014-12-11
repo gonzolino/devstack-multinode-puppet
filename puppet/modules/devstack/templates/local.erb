@@ -1,0 +1,63 @@
+[[local|localrc]]
+ADMIN_PASSWORD=vietstack
+DATABASE_PASSWORD=$ADMIN_PASSWORD
+RABBIT_PASSWORD=$ADMIN_PASSWORD
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+SERVICE_TOKEN=a682f596-76f3-11e3-b3b2-e716f9080d50
+LOGFILE=$DEST/logs/stack.sh.log
+SCREEN_LOGDIR=$DEST/logs/screen
+
+MULTI_HOST=True
+
+enable_service mysql
+#enable_service postgresql
+
+# Branches
+KEYSTONE_BRANCH=stable/icehouse
+NOVA_BRANCH=stable/icehouse
+NEUTRON_BRANCH=stable/icehouse
+SWIFT_BRANCH=stable/icehouse
+GLANCE_BRANCH=stable/icehouse
+CINDER_BRANCH=stable/icehouse
+
+<% if @is_controller == "true"%>
+
+HOST_IP=192.168.236.10
+# Network settings
+FLAT_INTERFACE=eth1
+# Use VLAN to segregate the virtual networks
+ENABLE_TENANT_VLANS=True
+TENANT_VLAN_RANGE=1000:1999
+PHYSICAL_NETWORK=physnet1
+OVS_PHYSICAL_BRIDGE=br-eth1
+
+disable_service n-net
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-l3
+enable_service q-meta
+
+enable_service n-novnc
+enable_service n-xvnc
+
+<%end%>
+
+<% if @is_compute_slave == "true" %>
+
+HOST_IP=192.168.236.11 # replace this with the IP address of the compute node
+
+# Openstack services running on controller node
+SERVICE_HOST=192.168.236.10 # replace this with the IP address of the controller node
+MYSQL_HOST=$SERVICE_HOST
+RABBIT_HOST=$SERVICE_HOST
+Q_HOST=$SERVICE_HOST
+GLANCE_HOSTPORT=$SERVICE_HOST:9292
+
+ENABLED_SERVICES=n-cpu,rabbit,quantum,q-agt
+
+<%end%>
+
+Offline=True
+Reclone=yes
+

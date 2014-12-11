@@ -1,0 +1,2 @@
+openrc=/home/stack/devstack/openrc
+source $openrc
