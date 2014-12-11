@@ -24,12 +24,12 @@ CINDER_BRANCH=stable/icehouse
 
 HOST_IP=192.168.236.10
 # Network settings
-FLAT_INTERFACE=eth1
+FLAT_INTERFACE=eth2
 # Use VLAN to segregate the virtual networks
 ENABLE_TENANT_VLANS=True
 TENANT_VLAN_RANGE=1000:1999
-PHYSICAL_NETWORK=physnet1
-OVS_PHYSICAL_BRIDGE=br-eth1
+PHYSICAL_NETWORK=physnet2
+OVS_PHYSICAL_BRIDGE=br-eth2
 
 disable_service n-net
 enable_service q-svc
